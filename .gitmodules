@@ -1,0 +1,9 @@
+[submodule "contracts/lib/forge-std"]
+	path = contracts/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "contracts/lib/permit2"]
+	path = contracts/lib/permit2
+	url = https://github.com/Uniswap/permit2
+[submodule "contracts/lib/the-compact"]
+	path = contracts/lib/the-compact
+	url = https://github.com/Uniswap/the-compact
