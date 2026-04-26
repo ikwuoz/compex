@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import "../src/OfframpArbiter.sol";
-import { Claim } from "the-compact/src/types/Claims.sol";
+import {Claim} from "the-compact/src/types/Claims.sol";
 
 contract MockCompact {
     function claim(Claim calldata) external pure returns (bytes32) {
@@ -20,9 +20,12 @@ contract OfframpArbiterTest is Test {
 
     function setUp() public {
         mockCompact = new MockCompact();
-        
+
         // Override COMPACT constant address
-        vm.etch(0x00000000000000171ede64904551eeDF3C6C9788, address(mockCompact).code);
+        vm.etch(
+            0x00000000000000171ede64904551eeDF3C6C9788,
+            address(mockCompact).code
+        );
 
         vm.startPrank(owner);
         arbiter = new OfframpArbiter(owner);
@@ -51,8 +54,8 @@ contract OfframpArbiterTest is Test {
         arbiter.settleOfframp(claim);
         vm.stopPrank();
 
-        bytes32 key = keccak256(abi.encode(claim.nonce));
-        assertTrue(arbiter.settled(key));
+        bytes32 claimHash = keccak256(abi.encode(claim));
+        assertTrue(arbiter.settledClaims(claimHash));
     }
 
     function test_CannotSettleSameNonceTwice() public {

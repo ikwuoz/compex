@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import "../src/OfframpArbiter.sol";
-import { Claim } from "the-compact/src/types/Claims.sol";
+import {Claim} from "the-compact/src/types/Claims.sol";
 
 contract OfframpArbiterIntegrationTest is Test {
     OfframpArbiter public arbiter;
@@ -37,9 +37,9 @@ contract OfframpArbiterIntegrationTest is Test {
         vm.prank(oracle);
         arbiter.settleOfframp(claim);
 
-        // Verify nonce is marked as settled
-        bytes32 key = keccak256(abi.encode(claim.nonce));
-        assertTrue(arbiter.settled(key));
+        // Verify claimHash is marked as settled
+        bytes32 claimHash = keccak256(abi.encode(claim));
+        assertTrue(arbiter.settledClaims(claimHash));
     }
 
     function test_Revert_UserCannotSettleClaim() public {
