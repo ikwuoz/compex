@@ -11,7 +11,9 @@ export const offrampArbiterAbi = [
     type: 'function',
     name: 'compact',
     inputs: [],
-    outputs: [{ name: '', type: 'address', internalType: 'contract ITheCompactClaims' }],
+    outputs: [
+      { name: '', type: 'address', internalType: 'contract ITheCompactClaims' },
+    ],
     stateMutability: 'view',
   },
   {
@@ -30,22 +32,22 @@ export const offrampArbiterAbi = [
         type: 'tuple',
         internalType: 'struct Claim',
         components: [
-          { name: 'allocatorData',     type: 'bytes',    internalType: 'bytes' },
-          { name: 'sponsorSignature',  type: 'bytes',    internalType: 'bytes' },
-          { name: 'sponsor',           type: 'address',  internalType: 'address' },
-          { name: 'nonce',             type: 'uint256',  internalType: 'uint256' },
-          { name: 'expires',           type: 'uint256',  internalType: 'uint256' },
-          { name: 'witness',           type: 'bytes32',  internalType: 'bytes32' },
-          { name: 'witnessTypestring', type: 'string',   internalType: 'string' },
-          { name: 'id',               type: 'uint256',  internalType: 'uint256' },
-          { name: 'allocatedAmount',   type: 'uint256',  internalType: 'uint256' },
+          { name: 'allocatorData', type: 'bytes', internalType: 'bytes' },
+          { name: 'sponsorSignature', type: 'bytes', internalType: 'bytes' },
+          { name: 'sponsor', type: 'address', internalType: 'address' },
+          { name: 'nonce', type: 'uint256', internalType: 'uint256' },
+          { name: 'expires', type: 'uint256', internalType: 'uint256' },
+          { name: 'witness', type: 'bytes32', internalType: 'bytes32' },
+          { name: 'witnessTypestring', type: 'string', internalType: 'string' },
+          { name: 'id', type: 'uint256', internalType: 'uint256' },
+          { name: 'allocatedAmount', type: 'uint256', internalType: 'uint256' },
           {
             name: 'claimants',
             type: 'tuple[]',
             internalType: 'struct Component[]',
             components: [
               { name: 'claimant', type: 'uint256', internalType: 'uint256' },
-              { name: 'amount',   type: 'uint256', internalType: 'uint256' },
+              { name: 'amount', type: 'uint256', internalType: 'uint256' },
             ],
           },
         ],
@@ -61,4 +63,4 @@ export const offrampArbiterAbi = [
     outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
     stateMutability: 'view',
   },
-] as const
+] as const;
