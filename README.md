@@ -120,6 +120,48 @@ cd backend && node index.js
 cd ui && npm run dev
 ```
 
+### Deployment Configuration
+
+Follow these steps to configure and deploy `OfframpArbiter` and related components.
+
+1. Configure environment
+
+Copy and edit `dev.env` at the repo root:
+
+```env
+ORACLE_PRIVATE_KEY=0x...       # Oracle key — also the OfframpArbiter owner
+ARBITER_ADDRESS=0x...          # Deployed OfframpArbiter address
+ALLOCATOR_ID=...               # uint96 ID from The Compact after registering Smallocator
+BASE_RPC_URL=https://mainnet.base.org
+PORT=3001
+```
+
+2. Deploy `OfframpArbiter`
+
+```bash
+cd contracts
+forge script script/OfframpArbiter.s.sol --rpc-url $BASE_RPC_URL \
+  --private-key $ORACLE_PRIVATE_KEY --broadcast
+```
+
+3. Register Smallocator as allocator (one-time)
+
+```bash
+cast send 0x00000000000000171ede64904551eeDF3C6C9788 \
+  "__registerAllocator(address,bytes)" \
+  $SMALLOCATOR_ADDRESS "0x" \
+  --rpc-url $BASE_RPC_URL \
+  --private-key $ORACLE_PRIVATE_KEY
+```
+
+4. Update `dev.env`
+
+After deployment, update `ARBITER_ADDRESS` and `ALLOCATOR_ID` in your `dev.env`.
+
+Notes:
+- Ensure `SMALLOCATOR` is running and reachable (default port `3001`) when registering.
+- Use an RPC endpoint with sufficient funds and network access for deployment.
+
 ## Contracts
 
 ### OfframpArbiter
