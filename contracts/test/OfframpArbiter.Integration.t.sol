@@ -264,11 +264,12 @@ contract OfframpArbiterIntegrationTest is Test {
         arbiter.settleOfframp(c);
     }
 
+    // Expiry is enforced by TheCompact, not the arbiter, so sponsors can force-withdraw.
     function test_Revert_ExpiredClaim() public {
         (Claim memory c,) = _buildSignedClaim(111, 1 ether, block.timestamp - 1);
 
         vm.prank(oracle);
-        vm.expectRevert("expired");
+        vm.expectRevert(); // TheCompact rejects expired claims
         arbiter.settleOfframp(c);
     }
 

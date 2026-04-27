@@ -23,7 +23,6 @@ contract OfframpArbiter {
     // arbiter calls this after confirming NGN payment
     function settleOfframp(Claim calldata claim) external {
         require(msg.sender == owner, "not oracle");
-        require(block.timestamp <= claim.expires, "expired");
         require(!settled[keccak256(abi.encode(claim.nonce))], "already settled");
         settled[keccak256(abi.encode(claim.nonce))] = true;
         compact.claim(claim);
