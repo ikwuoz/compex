@@ -116,7 +116,7 @@ contract CompexOracleTest is Test {
 
     function test_Integration_OracleOwnsArbiter() public {
         vm.etch(0x00000000000000171ede64904551eeDF3C6C9788, address(new MockCompact()).code);
-        OfframpArbiter realArbiter = new OfframpArbiter(address(oracle));
+        OfframpArbiter realArbiter = new OfframpArbiter(address(oracle), 0x00000000000000171ede64904551eeDF3C6C9788);
 
         assertEq(realArbiter.owner(), address(oracle));
 
@@ -131,7 +131,7 @@ contract CompexOracleTest is Test {
 
     function test_Integration_ReplayProtection() public {
         vm.etch(0x00000000000000171ede64904551eeDF3C6C9788, address(new MockCompact()).code);
-        OfframpArbiter realArbiter = new OfframpArbiter(address(oracle));
+        OfframpArbiter realArbiter = new OfframpArbiter(address(oracle), 0x00000000000000171ede64904551eeDF3C6C9788);
 
         Claim memory claim;
         claim.nonce = 7;
@@ -146,7 +146,7 @@ contract CompexOracleTest is Test {
 
     function test_Integration_OwnershipHandoff() public {
         vm.etch(0x00000000000000171ede64904551eeDF3C6C9788, address(new MockCompact()).code);
-        OfframpArbiter realArbiter = new OfframpArbiter(address(oracle));
+        OfframpArbiter realArbiter = new OfframpArbiter(address(oracle), 0x00000000000000171ede64904551eeDF3C6C9788);
 
         vm.prank(owner);
         oracle.transferOwnership(stranger);
@@ -165,7 +165,7 @@ contract CompexOracleTest is Test {
 
     function test_Integration_DirectArbiterCallReverts() public {
         vm.etch(0x00000000000000171ede64904551eeDF3C6C9788, address(new MockCompact()).code);
-        OfframpArbiter realArbiter = new OfframpArbiter(address(oracle));
+        OfframpArbiter realArbiter = new OfframpArbiter(address(oracle), 0x00000000000000171ede64904551eeDF3C6C9788);
 
         Claim memory claim;
         claim.nonce = 1;

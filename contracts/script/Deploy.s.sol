@@ -11,7 +11,7 @@ contract Deploy is Script {
 
         // Oracle contract owns the arbiter — rotate signers here without redeploying arbiter
         CompexOracle oracle = new CompexOracle(msg.sender);
-        OfframpArbiter arbiter = new OfframpArbiter(address(oracle));
+        OfframpArbiter arbiter = new OfframpArbiter(address(oracle), 0x00000000000000171ede64904551eeDF3C6C9788);
 
         vm.stopBroadcast();
 
