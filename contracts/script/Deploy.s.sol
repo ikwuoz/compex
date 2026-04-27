@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
+
+import "forge-std/Script.sol";
+import "../src/CompexOracle.sol";
+import "../src/OfframpArbiter.sol";
+
+contract Deploy is Script {
+    function run() external {
+        vm.startBroadcast();
+
+        // Oracle contract owns the arbiter — rotate signers here without redeploying arbiter
+        CompexOracle oracle = new CompexOracle(msg.sender);
+        OfframpArbiter arbiter = new OfframpArbiter(address(oracle), 0x00000000000000171ede64904551eeDF3C6C9788);
+
+        vm.stopBroadcast();
+
+        console.log("Oracle:  ", address(oracle));
+        console.log("Arbiter: ", address(arbiter));
+    }
+}
