@@ -8,43 +8,23 @@ interface ITheCompactClaims {
 }
 
 contract OfframpArbiter {
-    event OfframpSettled(
-        bytes32 indexed claimHash,
-        address indexed sponsor,
-        uint256 indexed nonce,
-        uint256 settledAt
-    );
-    ITheCompactClaims constant COMPACT =
-        ITheCompactClaims(0x00000000000000171ede64904551eeDF3C6C9788);
+    ITheCompactClaims public immutable compact;
 
     // owner = your backend oracle key
     address public owner;
 
-    constructor(address _owner) {
+    constructor(address _owner, address _compact) {
         owner = _owner;
+        compact = ITheCompactClaims(_compact);
     }
 
-    mapping(bytes32 => bool) public settledClaims;
+    mapping(bytes32 => bool) public settled;
 
     // arbiter calls this after confirming NGN payment
     function settleOfframp(Claim calldata claim) external {
         require(msg.sender == owner, "not oracle");
-        bytes32 claimHash = keccak256(abi.encode(claim));
-        require(!settledClaims[claimHash], "already settled");
-        settledClaims[claimHash] = true;
-        COMPACT.claim(claim);
-        emit OfframpSettled(
-            claimHash,
-            claim.sponsor,
-            claim.nonce,
-            block.timestamp
-        );
-    }
-
-    // view helper to compute claim hash (for backend correlation)
-    function getClaimHash(
-        Claim calldata claim
-    ) external pure returns (bytes32) {
-        return keccak256(abi.encode(claim));
+        require(!settled[keccak256(abi.encode(claim.nonce))], "already settled");
+        settled[keccak256(abi.encode(claim.nonce))] = true;
+        compact.claim(claim);
     }
 }

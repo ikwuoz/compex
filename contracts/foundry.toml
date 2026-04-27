@@ -4,6 +4,8 @@ out = "out"
 libs = ["lib"]
 
 remappings = [
+    "permit2/=lib/permit2/",
+    "solady/=lib/the-compact/lib/solady/src/",
     "the-compact/=lib/the-compact/",
 ]
 

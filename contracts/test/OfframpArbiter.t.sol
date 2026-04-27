@@ -22,13 +22,10 @@ contract OfframpArbiterTest is Test {
         mockCompact = new MockCompact();
 
         // Override COMPACT constant address
-        vm.etch(
-            0x00000000000000171ede64904551eeDF3C6C9788,
-            address(mockCompact).code
-        );
+        vm.etch(0x00000000000000171ede64904551eeDF3C6C9788, address(mockCompact).code);
 
         vm.startPrank(owner);
-        arbiter = new OfframpArbiter(owner);
+        arbiter = new OfframpArbiter(owner, 0x00000000000000171ede64904551eeDF3C6C9788);
         vm.stopPrank();
     }
 
@@ -49,18 +46,19 @@ contract OfframpArbiterTest is Test {
     function test_SettleOfframpMarksSettled() public {
         Claim memory claim;
         claim.nonce = 123;
+        claim.expires = block.timestamp + 1 hours;
 
         vm.startPrank(owner);
         arbiter.settleOfframp(claim);
         vm.stopPrank();
 
-        bytes32 claimHash = keccak256(abi.encode(claim));
-        assertTrue(arbiter.settledClaims(claimHash));
+        assertTrue(arbiter.settled(keccak256(abi.encode(claim.nonce))));
     }
 
     function test_CannotSettleSameNonceTwice() public {
         Claim memory claim;
         claim.nonce = 456;
+        claim.expires = block.timestamp + 1 hours;
 
         vm.startPrank(owner);
         arbiter.settleOfframp(claim);

@@ -1,0 +1,1 @@
+export { offrampArbiterAbi } from './offrampArbiter'
