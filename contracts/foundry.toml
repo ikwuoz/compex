@@ -7,6 +7,7 @@ remappings = [
     "permit2/=lib/permit2/",
     "solady/=lib/the-compact/lib/solady/src/",
     "the-compact/=lib/the-compact/",
+    "permit2/=lib/the-compact/lib/permit2/",
 ]
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
